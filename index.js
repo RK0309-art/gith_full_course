@@ -1,2 +1,4 @@
-console.log("わっっっっ");
-console.log("ちんこ");
+function unko() {
+    console.log("ああああああ");
+}
+unko();
