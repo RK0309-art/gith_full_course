@@ -1,1 +1,70 @@
-@startuml 
+@startuml 検索画面を表示する
+
+actor ユーザー as U
+
+@enduml
+@startuml 書籍を絞り込む
+
+actor ユーザー as U
+
+@enduml
+@startuml 書籍詳細を表示する
+
+actor ユーザー as U
+
+@enduml
+@startuml ログインする
+
+actor ユーザー as U
+
+@enduml
+@startuml 書籍を追加する
+
+actor ユーザー as U
+
+@enduml
+@startuml 書籍情報を編集する
+
+actor ユーザー as U
+
+@enduml
+@startuml 書籍を削除する
+
+actor ユーザー as U
+
+@enduml
+@startuml 棚を追加する
+
+actor ユーザー as U
+
+@enduml
+@startuml 棚を編集する
+
+actor ユーザー as U
+
+@enduml
+@startuml 棚を削除する
+
+actor ユーザー as U
+
+@enduml
+@startuml ログアウトする
+
+actor ユーザー as U
+
+@enduml
+@startuml 従業員を登録する
+
+actor ユーザー as U
+
+@enduml
+@startuml 従業員を削除する
+
+actor ユーザー as U
+
+@enduml
+@startuml 従業員を復元する
+
+actor ユーザー as U
+
+@enduml
