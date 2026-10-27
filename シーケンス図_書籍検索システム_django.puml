@@ -66,5 +66,5 @@ actor ユーザー as U
 @startuml 従業員を復元する
 
 actor ユーザー as U
-
+boundary
 @enduml
