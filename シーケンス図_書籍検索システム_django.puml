@@ -1,18 +1,56 @@
 @startuml 検索画面を表示する
-
 actor ユーザー as U
-
-
+boundary "search.html" as SH
+control "search.view\n/search" as SV
+ 
+SV --> SH : 検索欄を表示する
+alt ログイン済み
+SV --> SH : ユーザー名\nメニュー\nログアウトボタンを表示する
+else 未ログイン
+SV --> SH : ログインボタンを表示する
+end
+ 
 @enduml
+ 
 @startuml 書籍を絞り込む
-
+ 
 actor ユーザー as U
-
+boundary "search.html" as SH
+control "search.view\n/seach" as SV
+entity "Book" as BK
+boundary "result.html" as RH
+ 
+U -> SH :検索条件を入力
+SH -> SV : POST(title, author, genre)  
+SV -> BK : find(title, author, genre)
+SV <--BK : 書籍データ
+SV -> RH : 検索結果画面を表示する
+alt 検索結果が見つかる
+SV -> RH : 取得した書籍データを表示する
+else 検索結果が見つからない
+SV -> RH :「条件が合う本が見つかりません」\nと表示する
+ 
+end
 @enduml
+ 
 @startuml 書籍詳細を表示する
-
+ 
 actor ユーザー as U
-
+boundary "result.html" as RH
+control "result.view\n/result" as RV
+entity "Book" as BK
+boundary "detail.html" as DH
+ 
+U -> RH : 詳細ボタンを押す
+RH -> RV : GET(Book_id)
+RV -> BK : find(Book_id)
+BK --> RV : 書籍データ
+RV -> DH : 詳細画面を表示する
+alt ログイン済み
+RV -> DH : 編集ボタン\n削除ボタンを\n表示する
+else 未ログイン
+RV -> DH : 閲覧のみ表示する
+end
 @enduml
 @startuml ログインする
 
@@ -35,11 +73,13 @@ else 認証失敗
   LH <-- LV : エラーメッセージを表示する
 end
 @enduml
+
 @startuml 書籍を追加する
 
 actor ユーザー as U
 
 @enduml
+
 @startuml 書籍情報を編集する
 
 actor ユーザー as U
@@ -66,15 +106,19 @@ B --> DV :変更された本の内容を取得
 DV --> DH : 表示する
 
 end
-
 end
-
-
-
 @enduml
+
 @startuml 書籍を削除する
 
 actor ユーザー as U
+boundary "detail.html" as DH
+control "detail_view\n/detail" as DV
+boundary "confirm.html" as CH
+control "confirm_view\n/confirm" as CV
+boundary "result.html" as RH
+control "result_view\n/result" as RV
+
 
 @enduml
 @startuml 棚を追加する
