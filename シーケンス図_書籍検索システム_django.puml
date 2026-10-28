@@ -118,7 +118,6 @@ boundary "confirm.html" as CH
 control "confirm_view\n/confirm" as CV
 boundary "result.html" as RH
 control "result_view\n/result" as RV
-control "udswjd"
 
 @enduml
 @startuml 棚を追加する
