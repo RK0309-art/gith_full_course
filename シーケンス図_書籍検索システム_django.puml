@@ -2,6 +2,7 @@
 
 actor ユーザー as U
 
+
 @enduml
 @startuml 書籍を絞り込む
 
@@ -16,7 +17,23 @@ actor ユーザー as U
 @startuml ログインする
 
 actor ユーザー as U
+boundary "login.html" as LH
+control "login_view\n/login" as LV
+entity "User" as UM
+boundary "search.html" as SH
+control "search_view\n/" as SV
 
+U -> LH : ユーザー名とパスワードを入力し\nログインボタンを押す
+LH -> LV : ユーザーネームとパスワードをPOSTする
+LV -> UM : ユーザーネームとパスワードを送信する
+alt 認証成功
+  LV <-- UM : ユーザーオブジェクト
+  LV -> SV : リダイレクト
+  SH <-- SV : 表示する
+else 認証失敗
+  LV <-- UM : None
+  LH <-- LV : エラーメッセージを表示する
+end
 @enduml
 @startuml 書籍を追加する
 
