@@ -43,6 +43,33 @@ actor ユーザー as U
 @startuml 書籍情報を編集する
 
 actor ユーザー as U
+boundary "detail.html" as DH
+control "detail_view\n/detail" as DV
+boundary "change.html" as CH
+control "change_view\n/change" as CV
+entity "book" as B
+
+U -> DH : 編集ボタンを押す
+DH -> CH : 変更画面の表示
+CV -> B : 本情報を取得
+B --> CV : 取得
+CV --> CH :表示する
+alt 戻るボタンが押された場合
+CH --> DH : 表示する
+else 保存ボタンが押された場合
+CH -> CV :内容を送信
+alt  一部未入力の場合
+CV --> CH :エラーメッセージを表示
+else 入力されていた場合
+CV -> B :内容を変更して保存 
+B --> DV :変更された本の内容を取得
+DV --> DH : 表示する
+
+end
+
+end
+
+
 
 @enduml
 @startuml 書籍を削除する
