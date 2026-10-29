@@ -110,7 +110,6 @@ end
 @enduml
 
 @startuml 書籍を削除する
-
 actor ユーザー as U
 boundary "detail.html" as DH
 control "detail_view\n/detail" as DV
@@ -118,7 +117,17 @@ boundary "confirm.html" as CH
 control "confirm_view\n/confirm" as CV
 boundary "result.html" as RH
 control "result_view\n/result" as RV
-control "udswjd"
+entity "book" as B
+U -> DH :削除ボタンを押す
+DH -> CH :確認画面表示
+alt 削除ボタンを押した場合
+CH -> CV : 削除ボタンを押す
+CV -> B : 該当の書籍情報を削除
+B --> RV : 該当データが削除された\n書籍データを送る
+RV --> RH :表示する
+else 戻るボタンを押した場合
+CH --> DH : 表示
+end
 
 @enduml
 @startuml 棚を追加する
