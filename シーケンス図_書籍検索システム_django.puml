@@ -160,7 +160,7 @@ SH -> SH : 確認アラート表示
 alt 確認
   U -> SH : 確認ボタンを押す
   SH -> LV : GET
-  LV -> LV : logout(request)
+  LV -> LV : logout
   LV -> SV : リダイレクト
   SH <-- SV : 表示する
 else キャンセル
@@ -197,7 +197,8 @@ SH -> SV : 入力された内容を\n確認する
 
 alt 入力が正常だった場合
 SV -> E :入力された内容を\nデータベースにPOSTする
-SH -> CV : GET
+E -> CV : 取得
+SV -> CV : リダイレクト
 CV -> CH : 表示する
 U -> CH :戻るボタンを押す
 CH -> CV : GET
