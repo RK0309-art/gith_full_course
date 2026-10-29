@@ -121,11 +121,13 @@ entity "book" as B
 U -> DH :削除ボタンを押す
 DH -> CH :確認画面表示
 alt 削除ボタンを押した場合
-CH -> CV : 削除ボタンを押す
+U -> CH : 削除ボタンを押す
+CH -> CV :送信
 CV -> B : 該当の書籍情報を削除
 B --> RV : 該当データが削除された\n書籍データを送る
 RV --> RH :表示する
 else 戻るボタンを押した場合
+U -> CH :戻るボタンを押す
 CH --> DH : 表示
 end
 
@@ -147,7 +149,6 @@ actor ユーザー as U
 @enduml
 @startuml ログアウトする
 
-actor ユーザー as U
 
 @enduml
 @startuml 従業員を登録する
