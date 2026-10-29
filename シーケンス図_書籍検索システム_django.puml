@@ -62,8 +62,8 @@ boundary "search.html" as SH
 control "search_view\n/" as SV
 
 U -> LH : ユーザー名とパスワードを入力し\nログインボタンを押す
-LH -> LV : ユーザーネームとパスワードをPOSTする
-LV -> UM : ユーザーネームとパスワードを送信する
+LH -> LV : ユーザーネームと\nパスワードをPOSTする
+LV -> UM : ユーザーネームと\nパスワードを送信する
 alt 認証成功
   LV <-- UM : ユーザーオブジェクト
   LV -> SV : リダイレクト
@@ -90,20 +90,20 @@ control "change_view\n/change" as CV
 entity "book" as B
 
 U -> DH : 編集ボタンを押す
-DH -> CH : 変更画面の表示
+DH -> CV : GET
 CV -> B : 本情報を取得
 B --> CV : 取得
-CV --> CH :表示する
+CV -> CH :表示する
 alt 戻るボタンが押された場合
-CH --> DH : 表示する
+CH -> DH : 表示する
 else 保存ボタンが押された場合
 CH -> CV :内容を送信
 alt  一部未入力の場合
-CV --> CH :エラーメッセージを表示
+CV -> CH :エラーメッセージを表示
 else 入力されていた場合
 CV -> B :内容を変更して保存 
 B --> DV :変更された本の内容を取得
-DV --> DH : 表示する
+DV -> DH : 表示する
 
 end
 end
@@ -122,13 +122,14 @@ U -> DH :削除ボタンを押す
 DH -> CH :確認画面表示
 alt 削除ボタンを押した場合
 U -> CH : 削除ボタンを押す
-CH -> CV :送信
+CH -> CV :GET
 CV -> B : 該当の書籍情報を削除
 B --> RV : 該当データが削除された\n書籍データを送る
-RV --> RH :表示する
+RV -> RH :表示する
 else 戻るボタンを押した場合
 U -> CH :戻るボタンを押す
-CH --> DH : 表示
+CH -> CV :GET /detail
+CV -> DH : 表示
 end
 
 @enduml
@@ -149,16 +150,95 @@ actor ユーザー as U
 @enduml
 @startuml ログアウトする
 
+actor ユーザー as U
+boundary "serch.html" as SH
+control "logout_view\n/logout" as LV
+control "serch_view\n/" as SV
+
+U -> SH : ログアウトボタンを押す
+SH -> SH : 確認アラート表示
+alt 確認
+  U -> SH : 確認ボタンを押す
+  SH -> LV : GET
+  LV -> LV : logout(request)
+  LV -> SV : リダイレクト
+  SH <-- SV : 表示する
+else キャンセル
+  U -> SH : キャンセルを押す
+  SH -> SH : アラートを閉じる
+end
+
+
 
 @enduml
 @startuml 従業員を登録する
 
 actor ユーザー as U
+boundary "employee.html" as EH
+control "enployee_view\n/" as EV
+boundary "employeesub.html" as SH
+control "employeesub_view\n/" as SV
+boundary "employeecomplate.html" as CH
+control "employeecomplate_view\n/" as CV
+entity "employee" as E
+
+U -> EH : 追加ボタンを押す
+EH -> SV : GET
+SV -> SH :表示する
+
+alt 戻るボタンを押した場合
+U -> SH :戻るボタンを押す
+SH -> SV :GET
+SV -> EH :表示する
+
+else 登録ボタンを押した場合
+U -> SH :登録ボタンを押す
+SH -> SV : 入力された内容を\n確認する
+
+alt 入力が正常だった場合
+SV -> E :入力された内容を\nデータベースにPOSTする
+SH -> CV : GET
+CV -> CH : 表示する
+U -> CH :戻るボタンを押す
+CH -> CV : GET
+CV -> EH :表示する
+
+else 入力のいずれかが不正だった場合
+SV -> EH : エラーメッセージを表示
+
+end
+end
+
 
 @enduml
 @startuml 従業員を削除する
 
 actor ユーザー as U
+boundary "employee.html" as EH
+control "enployee_view\n/" as EV
+boundary "deleteconfirm.html" as DH
+control "deleteconfirm_view\n/" as DV
+entity "employee" as E
+boundary "delcomplate.html" as DC
+control "delcomplate_view\n/" as CV 
+
+U -> EH : 削除ボタンを押す
+EH -> DV : GET
+DV -> DH : 表示する
+alt 確定ボタンを押した場合
+U -> DH : 確定ボタンを押す
+DH -> DV : GET
+DV -> E : 該当の従業員の\n情報を削除する(POST)
+DV -> DC : 表示する
+U -> DC : 戻るボタン押す
+DC -> CV : GET
+CV -> EH : 表示する
+else キャンセルボタンを押した場合
+U -> DH :キャンセルボタンを押す
+DH -> DV :GET
+DV -> EH : 表示する
+end
+
 
 @enduml
 @startuml 従業員を復元する
