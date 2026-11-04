@@ -77,6 +77,27 @@ end
 @startuml 書籍を追加する
 
 actor ユーザー as U
+boundary "post.html" as PH
+control "post_view\n/" as PV
+entity "photo" as P
+control  "bookapi" as BA
+
+U -> PH : ISBNを入力し書籍情報取得
+PH -> PV : GET
+PV -> BA : 入力されたISBNを\n送信
+BA --> PV : 書籍名・著者・出版社・ページ数・書影を送信
+PV -> PH :表示する
+U -> PH  : 価格・ジャンル・説明を入力し、\n在庫の有無をラジオボタンで選択する
+PH -> PV :GET 
+alt 
+PV ->  PH :完了メッセージ表示
+else 入力に不備があった場合
+PV -> PH : 該当箇所にエラーメッセージを表示 
+end
+
+
+
+
 
 @enduml
 
@@ -245,5 +266,39 @@ end
 @startuml 従業員を復元する
 
 actor ユーザー as U
-boundary
+boundary "employee.html" as EH 
+control "employee_view\n/" as EV
+boundary "delresult.html" as DH
+control "delresult_view\n/" as DV
+boundary "complate.html" as CH
+control "complate_view\n/" as CV
+entity "delresult" as D
+
+U -> EH : 削除履歴ボタンを押す
+EH -> EV : GET
+EV -> DV :リダイレクト
+DV -> D : 削除履歴取得
+D -> DV :削除履歴
+DV -> DH :表示する
+alt 復元ボタンを押した場合
+U -> DH : 復元ボタンを押す
+DH -> DV : GET
+DV -> DH :確認アラートを表示
+alt アラートの復元ボタンを押した場合
+U -> DH :アラートの復元ボタンを押す
+DH -> DV :GET
+DV -> CV :リダイレクト
+CV -> CH :表示する
+else キャンセルボタンを押した場合
+U -> DH : キャンセルボタンを押す
+DH -> DH : アラートを閉じる
+
+end
+
+
+
+end
+
+
+
 @enduml
