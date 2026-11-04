@@ -59,7 +59,7 @@ boundary "login.html" as LH
 control "login_view\n/login" as LV
 entity "User" as UM
 boundary "search.html" as SH
-control "search_view\n/" as SV
+control "search_view\n/search" as SV
 
 U -> LH : ユーザー名とパスワードを入力し\nログインボタンを押す
 LH -> LV : ユーザーネームと\nパスワードをPOSTする
@@ -78,8 +78,7 @@ end
 
 actor ユーザー as U
 boundary "post.html" as PH
-control "post_view\n/" as PV
-entity "photo" as P
+control "post_view\n/post" as PV
 control  "bookapi" as BA
 
 U -> PH : ISBNを入力し書籍情報取得
@@ -174,7 +173,7 @@ actor ユーザー as U
 actor ユーザー as U
 boundary "serch.html" as SH
 control "logout_view\n/logout" as LV
-control "serch_view\n/" as SV
+control "search_view\n/search" as SV
 
 U -> SH : ログアウトボタンを押す
 SH -> SH : 確認アラート表示
@@ -196,11 +195,11 @@ end
 
 actor ユーザー as U
 boundary "employee.html" as EH
-control "enployee_view\n/" as EV
+control "enployee_view\n/enployee" as EV
 boundary "employeesub.html" as SH
-control "employeesub_view\n/" as SV
+control "employeesub_view\n/employeesub" as SV
 boundary "employeecomplate.html" as CH
-control "employeecomplate_view\n/" as CV
+control "employeecomplate_view\n/employeecomplat" as CV
 entity "employee" as E
 
 U -> EH : 追加ボタンを押す
@@ -237,12 +236,12 @@ end
 
 actor ユーザー as U
 boundary "employee.html" as EH
-control "enployee_view\n/" as EV
+control "enployee_view\n/enployee" as EV
 boundary "deleteconfirm.html" as DH
-control "deleteconfirm_view\n/" as DV
+control "deleteconfirm_view\n/deleteconfirm" as DV
 entity "employee" as E
 boundary "delcomplate.html" as DC
-control "delcomplate_view\n/" as CV 
+control "delcomplate_view\n/delcomplate" as CV 
 
 U -> EH : 削除ボタンを押す
 EH -> DV : GET
@@ -267,11 +266,11 @@ end
 
 actor ユーザー as U
 boundary "employee.html" as EH 
-control "employee_view\n/" as EV
+control "employee_view\n/employee" as EV
 boundary "delresult.html" as DH
-control "delresult_view\n/" as DV
+control "delresult_view\n/delresult" as DV
 boundary "complate.html" as CH
-control "complate_view\n/" as CV
+control "complate_view\n/complate" as CV
 entity "delresult" as D
 
 U -> EH : 削除履歴ボタンを押す
