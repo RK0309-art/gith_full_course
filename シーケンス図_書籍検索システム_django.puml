@@ -2,7 +2,7 @@
 actor ユーザー as U
 boundary "search.html" as SH
 control "search.view\n/search" as SV
- 
+ SV-> SH :uuuu
 SV --> SH : 検索欄を表示する
 alt ログイン済み
 SV --> SH : ユーザー名\nメニュー\nログアウトボタンを表示する
@@ -294,10 +294,5 @@ DH -> DH : アラートを閉じる
 
 end
 
-
-
 end
-
-
-
 @enduml
